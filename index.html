@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO List</title>
+    <style>
+        body, html {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #fff9c4, #fff59d); /* Light yellow gradient */
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+            font-size: 2.5rem;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .todo-container {
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .todo-input {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .todo-input input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: #fff;
+            color: #333;
+        }
+
+        .todo-input button {
+            padding: 10px;
+            background-color: #ffd54f; /* Light yellow button */
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .todo-input button:hover {
+            background-color: #ffc107; /* Darker yellow on hover */
+        }
+
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .todo-item div {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .todo-item button {
+            padding: 5px 10px;
+            background-color: #ff6f61; /* Coral button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .todo-item button:hover {
+            background-color: #ff4a3d; /* Darker coral on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1><u>TODO List</u></h1>
+    <div class="container">
+        <div class="todo-container">
+            <div class="todo-input">
+                <input type="text" id="demo" placeholder="Enter a task">
+                <input type="date" id="demo3">
+                <button onclick="addTask()">ADD</button>
+            </div>
+            <div id="demo2" class="todo-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const todolist = [
+            { name: 'make dishes', date: '2022-02-22' },
+            { name: 'watch cloths', date: '2022-02-23' }
+        ];
+
+        rendering();
+
+        function addTask() {
+            const taskInput = document.getElementById('demo');
+            const dateInput = document.getElementById('demo3');
+            const taskName = taskInput.value;
+            const taskDate = dateInput.value;
+
+            if (taskName && taskDate) {
+                todolist.push({ name: taskName, date: taskDate });
+                taskInput.value = '';
+                dateInput.value = '';
+                rendering();
+            } else {
+                alert('Please enter both a task and a date.');
+            }
+        }
+
+        function rendering() {
+            let HTML = '';
+            todolist.forEach((task, index) => {
+                const taskName = task.name;
+                const taskDate = task.date;
+                const taskHTML = `
+                    <div class="todo-item">
+                        <div>${taskName}</div>
+                        <div>${taskDate}</div>
+                        <button onclick="deleteTask(${index})">Delete</button>
+                    </div>`;
+                HTML += taskHTML;
+            });
+            document.getElementById('demo2').innerHTML = HTML;
+        }
+
+        function deleteTask(index) {
+            todolist.splice(index, 1);
+            rendering();
+        }
+    </script>
+</body>
+</html>
